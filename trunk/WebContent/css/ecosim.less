@@ -1,0 +1,31 @@
+
+@darkBackgroundColor: #800000;
+@lightFontColor: white;
+
+
+body {
+	width:100%;
+	font-family: "Verdana", Verdana, Arial, sans-serif; 
+}
+html, body, div { padding:0;margin:0;border:0; }
+
+#heading {
+	height:30px;
+	color:@lightFontColor;
+	margin:0;
+	padding:0;
+	border:0; 
+	background-color:@darkBackgroundColor;
+	padding-left:10px;
+	padding-top:5px;
+	.shadow;
+}
+
+
+
+.shadow {
+	-moz-box-shadow: 1px 3px 4px #383838;
+	-webkit-box-shadow: 1px 3px 4px #383838;
+	box-shadow: 1px 3px 4px #383838;
+	behavior: url(css/pie/PIE.htc);
+}
