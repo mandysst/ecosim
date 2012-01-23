@@ -5,6 +5,7 @@ import org.jdom.Document;
 import ecosim.sim.Simulation;
 import ecosim.sim.SimulationParameters;
 import ecosim.web.model.EcoSimWebContext;
+import ecosim.web.view.EcoSimParam;
 import ecosim.web.view.XslViews;
 import framework.web.AbstractController;
 import framework.web.AbstractWebContext;
@@ -23,11 +24,8 @@ public class Execute extends AbstractController {
 	public Response processRequest(AbstractWebContext c) {
 		EcoSimWebContext context = (EcoSimWebContext) c;
 		
-		
 		// demonstration... this will be done as a background job...
-
-		SimulationParameters p = new SimulationParameters(10, 50);
-		Simulation sim = new Simulation("Console Demonstration", p);
+		Simulation sim = (Simulation) c.get(EcoSimParam.Simulation);
 		sim.run();
 		
 		Document pageXml = context.buildPageXml();

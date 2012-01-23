@@ -3,10 +3,10 @@ package ecosim.model.architecture;
 
 public final class TreeArchitecture {
 
-	final private float trunkHeight;
-	final private float trunkDiameter;
-	final private float canopyHeight;
-	final private float canopyDiameter;
+	final private double trunkHeight;
+	final private double trunkDiameter;
+	final private double canopyHeight;
+	final private double canopyDiameter;
 	
 	
 	public TreeArchitecture(TreeArchitectureCalculator params) {
@@ -16,19 +16,19 @@ public final class TreeArchitecture {
 		this.canopyHeight = params.calculateCanopyHeight();
 	}
 	
-	public float getTrunkHeight() {
+	public double getTrunkHeight() {
 		return trunkHeight;
 	}
 
-	public float getTrunkDiameter() {
+	public double getTrunkDiameter() {
 		return trunkDiameter;
 	}
 
-	public float getCanopyHeight() {
+	public double getCanopyHeight() {
 		return canopyHeight;
 	}
 
-	public float getCanopyDiameter() {
+	public double getCanopyDiameter() {
 		return canopyDiameter;
 	}
 	

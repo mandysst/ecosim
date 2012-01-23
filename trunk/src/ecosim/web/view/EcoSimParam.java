@@ -7,6 +7,7 @@ import framework.web.AbstractParam;
 
 
 public enum EcoSimParam implements AbstractParam {
+	Simulation("simulation"),
 	JobId("jobId"),
 	AlertMessage("alertMessage");
 	

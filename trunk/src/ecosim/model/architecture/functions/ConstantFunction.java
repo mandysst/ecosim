@@ -2,14 +2,14 @@ package ecosim.model.architecture.functions;
 
 public class ConstantFunction implements ArchitectureFunction {
 
-	private final float C;
+	private final double C;
 	
-	public ConstantFunction(float c) {
+	public ConstantFunction(double c) {
 		C = c;
 	}
 
 	@Override
-	public float evaluate(float parameter) {
+	public double evaluate(double parameter) {
 		return C;
 	}
 	

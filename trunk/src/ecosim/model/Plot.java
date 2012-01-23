@@ -33,5 +33,10 @@ public class Plot {
 				location.getY() - this.yPos * this.plotLayout.getPlotSizeY());
 	}
 	
+	@Override
+	public String toString() {
+		return xPos + "-" + yPos;
+	}
+	
 	
 }
