@@ -9,6 +9,8 @@ public class ArchitectureKey {
 	private final Stratum strata;
 	private final ArchitectureProperty inputProperty;
 	private final ArchitectureProperty resultProperty;
+	
+	
 	public ArchitectureKey(TreeType treeType, Stratum strata,
 			ArchitectureProperty inputProperty,
 			ArchitectureProperty resultProperty) {
@@ -18,6 +20,8 @@ public class ArchitectureKey {
 		this.inputProperty = inputProperty;
 		this.resultProperty = resultProperty;
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -2,9 +2,9 @@ package ecosim.model.architecture;
 
 public interface TreeArchitectureCalculator {
 
-	float calculateTrunkHeight();
-	float calculateTrunkDiameter();
-	float calculateCanopyHeight();
-	float calculateCanopyDiameter();
+	double calculateTrunkHeight();
+	double calculateTrunkDiameter();
+	double calculateCanopyHeight();
+	double calculateCanopyDiameter();
 	
 }

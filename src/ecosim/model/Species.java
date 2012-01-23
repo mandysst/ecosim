@@ -4,6 +4,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import ecosim.model.architecture.ArchitectureKey;
 import ecosim.model.architecture.functions.ArchitectureFunction;
+import ecosim.model.growth.GrowthCalculator;
+import ecosim.model.growth.GrowthFactorKey;
 import ecosim.model.mortality.MortalityCalculator;
 import ecosim.model.mortality.MortalityKey;
 
@@ -22,20 +24,27 @@ public final class Species {
 	
 	// Populated before the simulation - contains functions for architecture calculations
 	// effectively indexed by type (adult/sapling), strata, and input/output properties
-	private final ConcurrentHashMap<ArchitectureKey, ArchitectureFunction> architectureFunctions; 
+	private final ArchitectureMap architectureFunctions; 
 	
 	// Populated before the simulation - contains mortality objects for calculating the probability of mortality
 	// is indexed by type/strata.  
-	private final ConcurrentHashMap<MortalityKey, MortalityCalculator> mortality; 
+	private final MortalityMap mortality; 
+	
+	private final GrowthFunctionMap growthCalculators;
 	
 	
-	
-	public Species(String name, 
-			ConcurrentHashMap<ArchitectureKey, ArchitectureFunction> architectureFunctions, 
-			ConcurrentHashMap<MortalityKey, MortalityCalculator> mortality) {
+
+
+	public Species(
+			String name, 
+			ArchitectureMap architectureFunctions, 
+			MortalityMap mortality, 
+			GrowthFunctionMap growthCalculators) {
+		
 		this.name = name;
 		this.architectureFunctions = architectureFunctions;
 		this.mortality = mortality;
+		this.growthCalculators = growthCalculators;
 	}
 
 
@@ -43,7 +52,16 @@ public final class Species {
 		return name;
 	}
 	
-	public ConcurrentHashMap<ArchitectureKey, ArchitectureFunction> getArchitectureFunctions() {
+	public GrowthFunctionMap getGrowthCalculators() {
+		return growthCalculators;
+	}
+	
+	public MortalityMap getMortality() {
+		return mortality;
+	}
+
+
+	public ArchitectureMap getArchitectureFunctions() {
 		return architectureFunctions;
 	}
 	

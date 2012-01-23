@@ -11,7 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 import ecosim.model.Forest;
 import ecosim.model.Species;
+import ecosim.model.loaders.DefaultSpeciesLoader;
 import ecosim.model.loaders.ForestCloneLoader;
+import ecosim.model.loaders.SpeciesLoader;
+import ecosim.record.ConsoleRecorder;
+import ecosim.record.Recorder;
 
 public class Simulation {
 
@@ -19,27 +23,13 @@ public class Simulation {
 	private final int MAX_RUNTIME_MINUTES = 30;
 	
 	private Forest originalForest;
-	private ConcurrentHashMap<String, Species> speciesMap = new ConcurrentHashMap<String, Species>();
+	private SpeciesMap speciesMap = new SpeciesMap();
 	
 	private ExecutorService executorService;
 	private final SimulationParameters simParams;
 	private final UUID id;
 	private final String userLabel;
 	private final Date createdTime;
-	
-	
-	/*
-	 * The simulation object will create a single Map containing species, key'd by their species label.
-	 * The individual species object will contain growth factor objects, mortality object, and tree architecture
-	 * objects.
-	 * 
-	 * Once they've been configured, they are not to be modified.  Individual Tree objects will be created
-	 * in EACH simulation run, but within the run, we'll get the species object from the main simulation.
-	 * 
-	 * 
-	 */
-	
-	
 
 	public Simulation(String userLabel, SimulationParameters simParams) {
 		this.id = UUID.randomUUID();
@@ -47,6 +37,10 @@ public class Simulation {
 		this.createdTime = new Date();
 		this.simParams = simParams;
 		executorService = Executors.newFixedThreadPool(Math.min(simParams.getNumRuns(), MAX_THREADS));
+		
+		SpeciesLoader sl = new DefaultSpeciesLoader();
+		sl.loadSpecies(speciesMap);
+		
 	}
 	
 	public Forest getOriginalForest() {
@@ -58,13 +52,6 @@ public class Simulation {
 	}
 	
 	public void run() {
-		
-		
-
-		
-		// read input, prep everything...
-		
-		
 		try {
 			execute();
 		} catch (Throwable e) {
@@ -84,11 +71,20 @@ public class Simulation {
 		ForestCloneLoader cloner = new ForestCloneLoader(this.originalForest);
 		
 		for ( int i = 0; i < simParams.getNumRuns(); i++ ) {
-			SimulationRun simRun = new SimulationRun(i, simParams.getNumYears(), cloner);
+			SimulationRun simRun = new SimulationRun(i, simParams.getNumYears(), cloner, this.speciesMap);
+			Recorder recorder = new ConsoleRecorder(this, simRun);
+			simRun.setRecorder(recorder);
 			executorService.execute(simRun);
 		}
 		this.executorService.shutdown();
 		this.executorService.awaitTermination(MAX_RUNTIME_MINUTES, TimeUnit.MINUTES);
 		
 	}
+
+	public SpeciesMap getSpeciesMap() {
+		return speciesMap;
+	}
+	
+	
+	
 }

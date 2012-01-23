@@ -25,6 +25,14 @@ public final class Forest {
 		return plots;
 	}
 	
+	public List<Tree> findTreesAbove(Tree tree) {
+		List<Tree> retval = new LinkedList<Tree>();
+		System.out.println("Forest.findTreesAbove not implemented");
+		return retval;
+	}
 	
+	public int nextTreeId() {
+		return this.trees.size();
+	}
 	
 }

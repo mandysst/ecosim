@@ -14,10 +14,14 @@ public class BasicMortalityCalculator extends MortalityCalculator{
 		P = 0.1;
 	}
 	@Override
-	protected double calculateMortalityProbability(Tree tree, Forest forest) {
+	protected double calculateMortalityProbability(Tree tree, Forest forest, int year) {
 		return P;
 	}
 	
+	@Override
+	public String getDescription() {
+		return "Basic constant-probability mortality rate";
+	}
 
 	
 

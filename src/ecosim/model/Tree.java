@@ -7,6 +7,7 @@ public class Tree {
 	private final Location location;
 	private final Plot plot;
 	private final String speciesName;
+	private final int id;
 	
 	private Stratum strata = Stratum.Unknown;
 	private TreeHealth health = null;
@@ -14,13 +15,24 @@ public class Tree {
 	private TreeType type;
 	
 	
-	public Tree (String speciesName, Location location, Plot plot) {
+	public Tree (int id, String speciesName, Location location, Plot plot) {
 		this.speciesName = speciesName;
 		this.location = location;
 		this.plot = plot;
+		this.id = id;
+	}
+	
+	
+	public Plot getPlot() {
+		return plot;
 	}
 
-	
+
+	public int getId() {
+		return id;
+	}
+
+
 	public TreeType getType() {
 		return type;
 	}
@@ -47,6 +59,7 @@ public class Tree {
 
 	public void setStrata(Stratum strata) {
 		this.strata = strata;
+		
 	}
 
 
@@ -54,6 +67,18 @@ public class Tree {
 		return health;
 	}
 
+	public boolean isDead() {
+		return this.health == null || this.health.getHealthScore() <= 0;
+	}
+	
+	public boolean isAlive() {
+		return this.health != null && this.health.getHealthScore() >= 0;
+	}
+	
+	public void kill() {
+		this.health = null;
+	}
+	
 
 	public void setHealth(TreeHealth health) {
 		this.health = health;

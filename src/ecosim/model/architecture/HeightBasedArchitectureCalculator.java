@@ -7,31 +7,31 @@ import ecosim.model.architecture.functions.ArchitectureFunction;
 public class HeightBasedArchitectureCalculator implements
 		TreeArchitectureCalculator {
 
-	final private float trunkHeight;
-	final private float trunkDiameter;
-	final private float canopyHeight;
-	final private float canopyDiameter;
+	final private double trunkHeight;
+	final private double trunkDiameter;
+	final private double canopyHeight;
+	final private double canopyDiameter;
 	
-	public HeightBasedArchitectureCalculator(float newTrunkDiameter, Tree currentTree, Species species) {
+	public HeightBasedArchitectureCalculator(double newTrunkDiameter, Tree currentTree, Species species) {
 		trunkHeight = newTrunkDiameter;
 		trunkDiameter = evaluateTrunkDiameter(currentTree, species);
 		canopyHeight = evaluateCanapyHeight(currentTree, species);
 		canopyDiameter = evaluateCanapyDiameter(currentTree, species);
 	}
 	
-	private float evaluateTrunkDiameter(Tree currentTree, Species species) {
+	private double evaluateTrunkDiameter(Tree currentTree, Species species) {
 		ArchitectureFunction f = species.getArchitectureFunctions().get(
 				new ArchitectureKey(currentTree.getType(), currentTree.getStrata(),
 						ArchitectureProperty.TrunkHeight, ArchitectureProperty.TrunkHeight));
 		return  f.evaluate(trunkHeight);
 	}
-	private float evaluateCanapyHeight(Tree currentTree, Species species) {
+	private double evaluateCanapyHeight(Tree currentTree, Species species) {
 		ArchitectureFunction f = species.getArchitectureFunctions().get(
 				new ArchitectureKey(currentTree.getType(), currentTree.getStrata(),
 						ArchitectureProperty.TrunkHeight, ArchitectureProperty.CanapyHeight));
 		return  f.evaluate(trunkHeight);
 	}
-	private float evaluateCanapyDiameter(Tree currentTree, Species species) {
+	private double evaluateCanapyDiameter(Tree currentTree, Species species) {
 		ArchitectureFunction f = species.getArchitectureFunctions().get(
 				new ArchitectureKey(currentTree.getType(), currentTree.getStrata(),
 						ArchitectureProperty.TrunkHeight, ArchitectureProperty.CanapyDiameter));
@@ -41,22 +41,22 @@ public class HeightBasedArchitectureCalculator implements
 	
 	
 	@Override
-	public float calculateTrunkHeight() {
+	public double calculateTrunkHeight() {
 		return trunkHeight;
 	}
 
 	@Override
-	public float calculateTrunkDiameter() {
+	public double calculateTrunkDiameter() {
 		return trunkDiameter;
 	}
 
 	@Override
-	public float calculateCanopyHeight() {
+	public double calculateCanopyHeight() {
 		return canopyHeight;
 	}
 
 	@Override
-	public float calculateCanopyDiameter() {
+	public double calculateCanopyDiameter() {
 		return canopyDiameter;
 	}
 
