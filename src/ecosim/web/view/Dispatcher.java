@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ecosim.web.model.EcoSimWebContext;
+import framework.db.DatabaseConnectionParameters;
 import framework.web.AbstractController;
 import framework.web.AbstractDispatch;
 import framework.web.AbstractParam;
@@ -48,6 +49,12 @@ public class Dispatcher extends AbstractDispatch {
 	@Override
 	protected String getControllerPackage() {
 		return "ecosim.web.controllers";
+	}
+
+	@Override
+	protected DatabaseConnectionParameters getDbParams() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
