@@ -26,7 +26,7 @@
 			</head>
 			<body>
 				<xsl:call-template name="header">
-					<xsl:with-param name="title">: Simulation in Progress</xsl:with-param>
+					<xsl:with-param name="title">: Simulation Results</xsl:with-param>
 				</xsl:call-template>
 				
 				<p>This page will show basic summary information, such as the overall percentage of species in the results.
