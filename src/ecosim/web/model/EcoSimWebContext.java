@@ -7,16 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import framework.web.AbstractDispatch;
 import framework.web.AbstractWebContext;
 
 public class EcoSimWebContext extends AbstractWebContext {
 
-	public EcoSimWebContext(HttpServlet dispatchServlet, HttpServletRequest request, HttpServletResponse response) {
-		super(dispatchServlet, request, response);
+	public EcoSimWebContext(HttpServlet dispatchServlet, HttpServletRequest request, HttpServletResponse response, AbstractDispatch dispatch) {
+		super(dispatchServlet, request, response, dispatch);
 	}
 	@Override
 	public String getContextName() {
-		return "ecosim";
+		return "ecosim"; 
 	}
 
 	@Override

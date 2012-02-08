@@ -19,9 +19,11 @@ import ecosim.model.mortality.MortalityKey;
 import ecosim.sim.SpeciesMap;
 
 public class DefaultSpeciesLoader implements SpeciesLoader {
-
+	
 	@Override
 	public void loadSpecies(SpeciesMap speciesMap){
+		
+		
 		MortalityCalculator m = new BasicMortalityCalculator(0.2);
 		MortalityMap mMap = new MortalityMap();
 		mMap.put(new MortalityKey(TreeType.Adult, Stratum.Canopy), m);
