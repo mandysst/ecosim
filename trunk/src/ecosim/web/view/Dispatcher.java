@@ -33,7 +33,7 @@ public class Dispatcher extends AbstractDispatch {
 
 	@Override
 	protected AbstractWebContext buildContext(HttpServlet dispatchServlet, HttpServletRequest request, HttpServletResponse response) {
-		return new EcoSimWebContext(dispatchServlet, request, response);
+		return new EcoSimWebContext(dispatchServlet, request, response, this);
 	}
 	
 	@Override

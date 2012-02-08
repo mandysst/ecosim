@@ -12,8 +12,8 @@ public class HeightBasedArchitectureCalculator implements
 	final private double canopyHeight;
 	final private double canopyDiameter;
 	
-	public HeightBasedArchitectureCalculator(double newTrunkDiameter, Tree currentTree, Species species) {
-		trunkHeight = newTrunkDiameter;
+	public HeightBasedArchitectureCalculator(double newHeight, Tree currentTree, Species species) {
+		trunkHeight = newHeight;
 		trunkDiameter = evaluateTrunkDiameter(currentTree, species);
 		canopyHeight = evaluateCanapyHeight(currentTree, species);
 		canopyDiameter = evaluateCanapyDiameter(currentTree, species);
