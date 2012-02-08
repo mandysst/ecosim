@@ -31,10 +31,13 @@
 				
 				
 				
-				<form id="loadForm" action="read-data" name="loadForm" method="POST" style="padding:1em;">
+				<form id="loadForm" action="read-data" name="loadForm" method="POST" style="padding:1em;" enctype="multipart/form-data">
 					
 					<p>On this page the user will browse and upload the excel file containing the tree data they will use.
 					This will include 2 files - one for adult and one for saplings</p>
+					
+					<input type="file" name="file" size="50" />
+					
 					<button type="submit">Load</button>
 				
 				</form>
