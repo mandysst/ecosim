@@ -11,7 +11,7 @@ public enum Stratum {
 		public TreeType constrain(TreeType currentType) {
 			return TreeType.Adult;
 		}
-	}, SubCanapoy {
+	}, Subcanopy {
 		@Override
 		public TreeType constrain(TreeType currentType) {
 			return currentType;
