@@ -34,6 +34,12 @@
 				<form id="startForm" action="initialize" name="startForm" method="POST" style="padding:1em;">
 					<p>On this page the user needs to enter the number years to simulate, the number of runs they plan on using
 					and the plot layout information (plot size, number of plots (grid)</p>
+					Number of Years: <input type="text" name="numYears" value="10" /><br />
+					Number of Simulations: <input type="text" name="numSim" value="1" /><br />
+					Number of X Plots: <input type="text" name="numX" value="1" /><br />
+					Number of Y Plots: <input type="text" name="numY" value="1" /><br />
+					Size of X: <input type="text" name="sizeX" value="10" /><br />
+					Size of Y: <input type="text" name="sizeY" value="10" /><br />
 					<button type="submit">Start</button>
 				
 				</form>
