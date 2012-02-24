@@ -1,5 +1,6 @@
 package ecosim.sim;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import ecosim.model.Forest;
 import ecosim.model.Species;
 import ecosim.model.loaders.DefaultSpeciesLoader;
+import ecosim.model.loaders.ExcelSpeciesLoader;
 import ecosim.model.loaders.ForestCloneLoader;
 import ecosim.model.loaders.SpeciesLoader;
 import ecosim.record.ConsoleRecorder;
@@ -27,6 +29,7 @@ public class Simulation {
 	
 	private ExecutorService executorService;
 	private final SimulationParameters simParams;
+
 	private final UUID id;
 	private final String userLabel;
 	private final Date createdTime;
@@ -81,8 +84,23 @@ public class Simulation {
 		
 	}
 
+	public void setSpeciesMap(String path)
+	{
+		File f=new File(path);
+		File[] speciesData=f.listFiles();
+		ExcelSpeciesLoader esl1;
+		for(int i=0;i<speciesData.length;i++)
+		{
+			esl1=new ExcelSpeciesLoader(speciesData[i]);
+			esl1.loadSpecies(speciesMap);
+		}
+	}
 	public SpeciesMap getSpeciesMap() {
 		return speciesMap;
+	}
+	public SimulationParameters getSimParams()
+	{
+		return simParams;
 	}
 	
 	
