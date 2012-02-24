@@ -42,6 +42,9 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 	final int EXCEL_CLASS=2; // Growth
 	final int EXCEL_INDEP=2, EXCEL_DEP=3, EXCEL_X0=4, EXCEL_X1=5, EXCEL_X2=6; // Architecture
 	
+	public RowRange rowIter;
+	public ArrayList<String> speciesData;
+	
 	
 	public ExcelSpeciesLoader (File excelFile) {
 		this.excelFile = excelFile;
@@ -58,76 +61,23 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		BasicSheet mortBasic = new BasicSheet(speciesWorkbook, mortSheet);
 		RowRange rowIter = mortBasic.getRowRange(EXCEL_START_ROW);
 		BasicCell tempCell;
-		ArrayList<String> speciesData = new ArrayList<String>();
+		speciesData = new ArrayList<String>();
 		
 		TreeType type=TreeType.Adult;
 		Stratum stratum=Stratum.Canopy;
 		
 		MortalityMap mMap = new MortalityMap();
-		MortalityCalculator m;
-		while(rowIter.getCell().hasValue())
-		{
-			speciesData.clear();
-			
-			for(int i=0;i<=EXCEL_MORT_WIDTH;i++)
-			{
-				tempCell = rowIter.getCellAndMove();
-				speciesData.add(tempCell.read());
-			}
-			m = new BasicMortalityCalculator(Double.parseDouble(speciesData.get(EXCEL_PERCENT)));
-			
-			type=TreeType.Adult;
-			stratum=Stratum.Canopy;
-			if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Adult")){type=TreeType.Adult;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Sapling")){type=TreeType.Sapling;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Seedling")){type=TreeType.Seedling;}
-			
-			if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Canopy")){stratum=Stratum.Canopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("SubCanopy")){stratum=Stratum.Subcanopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("upper midstory")){stratum=Stratum.UpperMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("lower midstory")){stratum=Stratum.LowerMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Emergent")){stratum=Stratum.Emergent;}
-			
-			mMap.put(new MortalityKey(type,stratum),m);
-			
-			rowIter.setRowIndex(rowIter.getRowIndex()+1);
-			rowIter.setColIndex(0);
-		}
+		
+		loadMortality(mMap, mortBasic);
+		
 		
 		
 		XSSFSheet growSheet = speciesWorkbook.getSheetAt(EXCEL_SHEET_GROWTH);
 		BasicSheet growBasic = new BasicSheet(speciesWorkbook, growSheet);
-		rowIter = growBasic.getRowRange(EXCEL_START_ROW);
-		
-		GrowthCalculator growthCalc=new BasicCanapyGrowthCalculator();
 		GrowthFunctionMap gMap = new GrowthFunctionMap();
-		while(rowIter.getCell().hasValue())
-		{
-			speciesData.clear();
-			for(int i=0;i<=EXCEL_GROW_WIDTH;i++)
-			{
-				tempCell = rowIter.getCellAndMove();
-				speciesData.add(tempCell.read());
-			}
-			type=TreeType.Adult;
-			stratum=Stratum.Canopy;
-			if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Adult")){type=TreeType.Adult;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Sapling")){type=TreeType.Sapling;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Seedling")){type=TreeType.Seedling;}
-			
-			if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Canopy")){stratum=Stratum.Canopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("SubCanopy")){stratum=Stratum.Subcanopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("upper midstory")){stratum=Stratum.UpperMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("lower midstory")){stratum=Stratum.LowerMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Emergent")){stratum=Stratum.Emergent;}
-			
-			if(speciesData.get(EXCEL_CLASS).equalsIgnoreCase("basic")){growthCalc=new BasicCanapyGrowthCalculator();}
-			
-			gMap.put(new GrowthFactorKey(type, stratum), growthCalc);
-			
-			rowIter.setRowIndex(rowIter.getRowIndex()+1);
-			rowIter.setColIndex(0);
-		}
+		
+		loadGrowth(gMap, growBasic);
+		
 		
 		
 		XSSFSheet arcSheet = speciesWorkbook.getSheetAt(EXCEL_SHEET_ARC);
@@ -146,22 +96,14 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 				tempCell = rowIter.getCellAndMove();
 				speciesData.add(tempCell.read());
 			}
-			type=TreeType.Adult;
-			stratum=Stratum.Canopy;
 			ind=ArchitectureProperty.TrunkDiameter;
 			dep=ArchitectureProperty.TrunkHeight;
 			independent="";
 			dependent="";
 			
-			if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Adult")){type=TreeType.Adult;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Sapling")){type=TreeType.Sapling;}
-			else if(speciesData.get(EXCEL_TYPE).equalsIgnoreCase("Seedling")){type=TreeType.Seedling;}
+			type=parseType(speciesData.get(EXCEL_TYPE));
 			
-			if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Canopy")){stratum=Stratum.Canopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("SubCanopy")){stratum=Stratum.Subcanopy;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("upper midstory")){stratum=Stratum.UpperMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("lower midstory")){stratum=Stratum.LowerMid;}
-			else if(speciesData.get(EXCEL_STRATUM).equalsIgnoreCase("Emergent")){stratum=Stratum.Emergent;}
+			stratum=Stratum.parseString(speciesData.get(EXCEL_STRATUM));
 			
 			if(speciesData.get(EXCEL_INDEP).equalsIgnoreCase("TD")){independent="TD";ind=ArchitectureProperty.TrunkDiameter;}
 			else if(speciesData.get(EXCEL_INDEP).equalsIgnoreCase("TH")){independent="TH";ind=ArchitectureProperty.TrunkHeight;}
@@ -241,6 +183,82 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 			but for now we'll just store it in WebContent/excel
 		*/
 
+	}
+	
+	public String loadMortality(MortalityMap m, BasicSheet mSheet)
+	{
+		BasicCell tempCell;
+		rowIter = mSheet.getRowRange(EXCEL_START_ROW);
+		MortalityCalculator mCalc;
+		TreeType type=TreeType.Adult;
+		Stratum stratum=Stratum.Canopy;
+		String error="";
+		
+		while(rowIter.getCell().hasValue())
+		{
+			speciesData.clear();
+			
+			for(int i=0;i<=EXCEL_MORT_WIDTH;i++)
+			{
+				tempCell = rowIter.getCellAndMove();
+				speciesData.add(tempCell.read());
+			}
+			mCalc = new BasicMortalityCalculator(Double.parseDouble(speciesData.get(EXCEL_PERCENT)));
+			
+			type=parseType(speciesData.get(EXCEL_TYPE));
+			
+			stratum=Stratum.parseString(speciesData.get(EXCEL_STRATUM));
+			
+			m.put(new MortalityKey(type,stratum),mCalc);
+			
+			rowIter.setRowIndex(rowIter.getRowIndex()+1);
+			rowIter.setColIndex(0);
+		}
+		
+		return error;
+	}
+	
+	public String loadGrowth(GrowthFunctionMap g, BasicSheet gSheet)
+	{
+		BasicCell tempCell;
+		rowIter = gSheet.getRowRange(EXCEL_START_ROW);
+		GrowthCalculator growthCalc=new BasicCanapyGrowthCalculator();
+		TreeType type=TreeType.Adult;
+		Stratum stratum=Stratum.Canopy;
+		String error="";
+		
+		while(rowIter.getCell().hasValue())
+		{
+			speciesData.clear();
+			for(int i=0;i<=EXCEL_GROW_WIDTH;i++)
+			{
+				tempCell = rowIter.getCellAndMove();
+				speciesData.add(tempCell.read());
+			}
+			type=parseType(speciesData.get(EXCEL_TYPE));
+			
+			stratum=Stratum.parseString(speciesData.get(EXCEL_STRATUM));
+			
+			if(speciesData.get(EXCEL_CLASS).equalsIgnoreCase("basic")){growthCalc=new BasicCanapyGrowthCalculator();}
+			
+			g.put(new GrowthFactorKey(type, stratum), growthCalc);
+			
+			rowIter.setRowIndex(rowIter.getRowIndex()+1);
+			rowIter.setColIndex(0);
+		}
+		
+		return error;
+	}
+	
+	public TreeType parseType(String ty)
+	{
+		TreeType retVal=TreeType.Adult;
+		
+		if(ty.equalsIgnoreCase("Adult")){retVal=TreeType.Adult;}
+		else if(ty.equalsIgnoreCase("Sapling")){retVal=TreeType.Sapling;}
+		else if(ty.equalsIgnoreCase("Seedling")){retVal=TreeType.Seedling;}
+		
+		return retVal;
 	}
 
 }

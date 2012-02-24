@@ -115,12 +115,7 @@ public class ExcelForestLoader implements ForestLoader {
 				rowTree.setType(TreeType.Adult);
 				//rowTree.setType(TreeType.Sapling);
 				
-				String strataComp=treeData.get(EXCEL_STRATUM);
-				if(strataComp.equalsIgnoreCase("Emergent")){rowTree.setStrata(Stratum.Emergent);}
-				else if(strataComp.equalsIgnoreCase("Canopy")){rowTree.setStrata(Stratum.Canopy);}
-				else if(strataComp.equalsIgnoreCase("Subcanopy")){rowTree.setStrata(Stratum.Subcanopy);}
-				else if(strataComp.equalsIgnoreCase("Upper Midstory")){rowTree.setStrata(Stratum.UpperMid);}
-				else if(strataComp.equalsIgnoreCase("lower midstory")){rowTree.setStrata(Stratum.LowerMid);}
+				rowTree.setStrata(Stratum.parseString(treeData.get(EXCEL_STRATUM)));
 				
 				DiameterBasedArchitectureCalculator dbac = new DiameterBasedArchitectureCalculator(Double.parseDouble(treeData.get(EXCEL_MEASUREMENT)) , rowTree, treeSpecies);
 				rowTree.setArchitecture(new TreeArchitecture(dbac));
