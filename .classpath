@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/Users/Patrick Shanley/Downloads/poi-bin-3.7-20101029 (1)/poi-3.7/poi-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="C:/web_dev/jdom/build/jdom.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -48,7 +48,7 @@ public class ReadData extends AbstractController {
 		// Read the excel file and load in all the tree data into the simulation object
 		Simulation sim = (Simulation) c.get(EcoSimParam.Simulation);
 		
-		sim.setSpeciesMap(c.getServlet().getServletContext().getRealPath("/")+"data");
+		sim.setSpeciesMap(c.getServlet().getServletContext().getRealPath("/"));
 
 		ExcelForestLoader tl = new ExcelForestLoader(excelFile, sim.getSimParams().getPlotLayout());
 		sim.setOriginalForest(tl.loadForest(sim.getSpeciesMap()));

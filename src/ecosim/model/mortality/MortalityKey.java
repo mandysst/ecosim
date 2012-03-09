@@ -1,5 +1,7 @@
 package ecosim.model.mortality;
 
+import org.jdom.Element;
+
 import ecosim.model.Stratum;
 import ecosim.model.TreeType;
 
@@ -35,7 +37,17 @@ public class MortalityKey {
 			return false;
 		return true;
 	}
-	
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("m_key");
+		Element tVal = new Element("type");
+		Element sVal = new Element("stratum");
+		tVal.setText(type.toString());
+		sVal.setText(strata.toString());
+		retVal.addContent(tVal);
+		retVal.addContent(sVal);
+		return retVal;
+	}
 	
 	
 }

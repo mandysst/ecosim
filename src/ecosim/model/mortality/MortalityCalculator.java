@@ -2,6 +2,8 @@ package ecosim.model.mortality;
 
 import java.util.Random;
 
+import org.jdom.Element;
+
 import ecosim.model.Forest;
 import ecosim.model.Tree;
 import ecosim.sim.SimulationRun;
@@ -17,4 +19,6 @@ public abstract class MortalityCalculator {
 		// 0.75 will be larger than a random number between 0 and 1 75% of the time.
 		return probability > randgen.nextDouble();
 	}
+	public abstract Element getXMLElement();
+	
 }

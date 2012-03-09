@@ -35,6 +35,7 @@
 					<p>On this page the user is shown the list of species that will be used in the simulation.  They can
 					click on any of the species links to see (and edit) details such as growth and mortality rates and 
 					customized tree architectural data</p>
+					
 					<button type="submit">Continue</button>
 				
 				</form>

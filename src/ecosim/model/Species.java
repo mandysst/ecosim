@@ -2,6 +2,8 @@ package ecosim.model;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jdom.Element;
+
 import ecosim.model.architecture.ArchitectureKey;
 import ecosim.model.architecture.functions.ArchitectureFunction;
 import ecosim.model.growth.GrowthCalculator;
@@ -63,6 +65,16 @@ public final class Species {
 
 	public ArchitectureMap getArchitectureFunctions() {
 		return architectureFunctions;
+	}
+	
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("name");
+		retVal.setAttribute("value", name);
+		retVal.addContent(mortality.getXMLElement());
+		//retVal.addContent(growthCalculators.getXMLElement());
+		//retVal.addContent(architectureFunctions.getXMLElement());
+		return retVal;
 	}
 	
 }
