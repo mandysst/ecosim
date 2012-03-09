@@ -41,8 +41,8 @@ public class Simulation {
 		this.simParams = simParams;
 		executorService = Executors.newFixedThreadPool(Math.min(simParams.getNumRuns(), MAX_THREADS));
 		
-		SpeciesLoader sl = new DefaultSpeciesLoader();
-		sl.loadSpecies(speciesMap);
+		//SpeciesLoader sl = new DefaultSpeciesLoader();
+		//sl.loadSpecies(speciesMap);
 		
 	}
 	
@@ -86,12 +86,14 @@ public class Simulation {
 
 	public void setSpeciesMap(String path)
 	{
-		File f=new File(path);
+		File f=new File(path+"data");
+		File speciesXml=new File(path+"xml/species.xml");
 		File[] speciesData=f.listFiles();
 		ExcelSpeciesLoader esl1;
 		for(int i=0;i<speciesData.length;i++)
 		{
 			esl1=new ExcelSpeciesLoader(speciesData[i]);
+			esl1.storeXml(speciesXml);
 			esl1.loadSpecies(speciesMap);
 		}
 	}

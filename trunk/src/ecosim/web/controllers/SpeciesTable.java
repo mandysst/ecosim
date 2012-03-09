@@ -16,11 +16,11 @@ import framework.web.ModelView;
 import framework.web.response.PageResponse;
 import framework.web.response.Response;
 
-public class SpeciesList extends AbstractController {
+public class SpeciesTable extends AbstractController {
 
-	public SpeciesList() {
+	public SpeciesTable() {
 		super();
-		this.supportedUrls.add("/speciesList");
+		this.supportedUrls.add("/speciesTable");
 		
 	}
 	
@@ -28,15 +28,6 @@ public class SpeciesList extends AbstractController {
 		EcoSimWebContext context = (EcoSimWebContext) c;
 		
 		Document pageXml = context.buildPageXml();
-		
-		Simulation sim = (Simulation) c.get(EcoSimParam.Simulation);
-		pageXml.addContent(sim.getSpeciesMap().getXMLElement());
-		
-		
-		//XMLOutputter for DEBUG
-		XMLOutputter o = new XMLOutputter(Format.getPrettyFormat());
-		try{o.output(sim.getSpeciesMap().getXMLElement(), System.out);} catch (IOException e){e.printStackTrace();}
-	   
 		
 	    return new PageResponse(new ModelView(XslViews.SpeciesList, pageXml));
 	}

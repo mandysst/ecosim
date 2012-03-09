@@ -2,10 +2,19 @@ package ecosim.model.loaders;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import ecosim.model.ArchitectureMap;
 import ecosim.model.GrowthFunctionMap;
@@ -44,12 +53,28 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 	
 	public RowRange rowIter;
 	public ArrayList<String> speciesData;
+	public File xmlFile;
+	public Document speciesDoc;
+	public String speciesName;
 	
 	
 	public ExcelSpeciesLoader (File excelFile) {
 		this.excelFile = excelFile;
 	}
 	
+	public void storeXml(File speciesXml)
+	{		
+		xmlFile=speciesXml;
+		SAXBuilder sBuild=new SAXBuilder();
+		try
+		{
+			speciesDoc=sBuild.build(xmlFile);
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
 		
 	@Override
 	public void loadSpecies(SpeciesMap speciesMap) {
@@ -62,6 +87,16 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		RowRange rowIter = mortBasic.getRowRange(EXCEL_START_ROW);
 		BasicCell tempCell;
 		speciesData = new ArrayList<String>();
+		
+		
+		XSSFSheet infoSheet = speciesWorkbook.getSheetAt(EXCEL_SHEET_INFO);
+		BasicSheet infoBasic = new BasicSheet(speciesWorkbook, infoSheet);
+		speciesName=infoBasic.getCell(1, "B").read();
+		String speciesAbrev=infoBasic.getCell(2, "B").read();
+		
+		setUpXML(speciesName);
+		
+		
 		
 		TreeType type=TreeType.Adult;
 		Stratum stratum=Stratum.Canopy;
@@ -152,14 +187,9 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		}
 		
 		
-		XSSFSheet infoSheet = speciesWorkbook.getSheetAt(EXCEL_SHEET_INFO);
-		BasicSheet infoBasic = new BasicSheet(speciesWorkbook, infoSheet);
+		Species oak = new Species(speciesName, aMap, mMap, gMap);
+		speciesMap.put(speciesAbrev, oak);
 		
-		Species oak = new Species(infoBasic.getCell(1, "B").read(), aMap, mMap, gMap);
-		speciesMap.put(infoBasic.getCell(2, "B").read(), oak);
-		
-		
-		//speciesMap.put(abrev, speciesData);
 		
 		}
 		catch(Exception e)
@@ -193,6 +223,8 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		TreeType type=TreeType.Adult;
 		Stratum stratum=Stratum.Canopy;
 		String error="";
+		double percent;
+		int counter=1;
 		
 		while(rowIter.getCell().hasValue())
 		{
@@ -203,16 +235,19 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 				tempCell = rowIter.getCellAndMove();
 				speciesData.add(tempCell.read());
 			}
-			mCalc = new BasicMortalityCalculator(Double.parseDouble(speciesData.get(EXCEL_PERCENT)));
+			percent=Double.parseDouble(speciesData.get(EXCEL_PERCENT));
+			mCalc = new BasicMortalityCalculator(percent);
 			
 			type=parseType(speciesData.get(EXCEL_TYPE));
 			
 			stratum=Stratum.parseString(speciesData.get(EXCEL_STRATUM));
 			
+			speciesDoc.getRootElement().getChild(speciesName).addContent(new Element("row"+counter).addContent(type.name()+", "+stratum.name()+", "+speciesData.get(EXCEL_PERCENT)));
 			m.put(new MortalityKey(type,stratum),mCalc);
 			
 			rowIter.setRowIndex(rowIter.getRowIndex()+1);
 			rowIter.setColIndex(0);
+			counter++;
 		}
 		
 		return error;
@@ -260,5 +295,18 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		
 		return retVal;
 	}
+	
+	public void setUpXML(String name)
+	{
+		if(!speciesDoc.getRootElement().getName().equalsIgnoreCase(""))
+		{
+			Element rEle=new Element("SpeciesList");
+			speciesDoc.setRootElement(rEle);
+		}
+		speciesDoc.getRootElement().removeChild(name);
+		Element sEle=new Element(name);
+		speciesDoc.getRootElement().addContent(sEle);
+	}
+	
 
 }
