@@ -1,5 +1,7 @@
 package ecosim.model.architecture;
 
+import org.jdom.Element;
+
 import ecosim.model.Stratum;
 import ecosim.model.TreeType;
 
@@ -55,6 +57,22 @@ public class ArchitectureKey {
 		return true;
 	}
 	
-	
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("a_key");
+		Element tVal = new Element("type");
+		Element sVal = new Element("stratum");
+		Element inProp = new Element("inputProperty");
+		Element resProp = new Element("resultProperty");
+		tVal.setText(treeType.toString());
+		sVal.setText(strata.toString());
+		inProp.setText(inputProperty.toString());
+		resProp.setText(resultProperty.toString());
+		retVal.addContent(tVal);
+		retVal.addContent(sVal);
+		retVal.addContent(inProp);
+		retVal.addContent(resProp);
+		return retVal;
+	}
 	
 }

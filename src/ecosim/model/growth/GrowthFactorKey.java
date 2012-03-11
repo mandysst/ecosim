@@ -1,5 +1,7 @@
 package ecosim.model.growth;
 
+import org.jdom.Element;
+
 import ecosim.model.Stratum;
 import ecosim.model.TreeType;
 
@@ -34,6 +36,18 @@ public class GrowthFactorKey {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+	
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("g_key");
+		Element tVal = new Element("type");
+		Element sVal = new Element("stratum");
+		tVal.setText(type.toString());
+		sVal.setText(strata.toString());
+		retVal.addContent(tVal);
+		retVal.addContent(sVal);
+		return retVal;
 	}
 	
 	

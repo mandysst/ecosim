@@ -2,6 +2,8 @@ package ecosim.model.growth;
 
 import java.util.Random;
 
+import org.jdom.Element;
+
 import ecosim.model.Forest;
 import ecosim.model.Tree;
 
@@ -20,6 +22,16 @@ public class BasicSaplingGrowthCalculator implements GrowthCalculator {
 		else {
 			return 0;
 		}
+	}
+
+	@Override
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("g_calc");
+		Element gVal = new Element("percent");
+		gVal.setText(""+0);
+		retVal.addContent(gVal);
+		return retVal;
 	}
 
 }

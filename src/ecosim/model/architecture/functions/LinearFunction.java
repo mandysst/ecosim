@@ -1,5 +1,7 @@
 package ecosim.model.architecture.functions;
 
+import org.jdom.Element;
+
 public class LinearFunction implements ArchitectureFunction {
 
 	private final double M;
@@ -12,6 +14,18 @@ public class LinearFunction implements ArchitectureFunction {
 	@Override
 	public double evaluate(double x) {
 		return M * x + B;
+	}
+	
+	public Element getXMLElement()
+	{
+		Element retVal = new Element("a_function");
+		Element bVal = new Element("x0");
+		Element mVal = new Element("x1");
+		bVal.setText(""+B);
+		mVal.setText(""+M);
+		retVal.addContent(bVal);
+		retVal.addContent(mVal);
+		return retVal;
 	}
 
 }

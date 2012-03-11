@@ -30,12 +30,13 @@ public class SpeciesList extends AbstractController {
 		Document pageXml = context.buildPageXml();
 		
 		Simulation sim = (Simulation) c.get(EcoSimParam.Simulation);
-		pageXml.addContent(sim.getSpeciesMap().getXMLElement());
+		//pageXml.addContent(sim.getSpeciesMap().getXMLElement());
+		pageXml.getRootElement().addContent(sim.getSpeciesMap().getXMLElement());
 		
 		
 		//XMLOutputter for DEBUG
 		XMLOutputter o = new XMLOutputter(Format.getPrettyFormat());
-		try{o.output(sim.getSpeciesMap().getXMLElement(), System.out);} catch (IOException e){e.printStackTrace();}
+		try{o.output(pageXml, System.out);} catch (IOException e){e.printStackTrace();}
 	   
 		
 	    return new PageResponse(new ModelView(XslViews.SpeciesList, pageXml));

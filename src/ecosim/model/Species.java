@@ -72,8 +72,8 @@ public final class Species {
 		Element retVal = new Element("name");
 		retVal.setAttribute("value", name);
 		retVal.addContent(mortality.getXMLElement());
-		//retVal.addContent(growthCalculators.getXMLElement());
-		//retVal.addContent(architectureFunctions.getXMLElement());
+		retVal.addContent(growthCalculators.getXMLElement());
+		retVal.addContent(architectureFunctions.getXMLElement());
 		return retVal;
 	}
 	
