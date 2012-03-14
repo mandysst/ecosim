@@ -3,6 +3,7 @@ package ecosim.web.controllers;
 import java.io.IOException;
 
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
@@ -29,6 +30,14 @@ public class SpeciesTable extends AbstractController {
 		
 		Document pageXml = context.buildPageXml();
 		
-	    return new PageResponse(new ModelView(XslViews.SpeciesList, pageXml));
+		Simulation sim = (Simulation) c.get(EcoSimParam.Simulation);
+		if(sim.getSpeciesMap()!=null)
+		{
+			Element e=sim.getSpeciesMap().getXMLElement();
+			e.setAttribute("target", context.getString("value"));
+			pageXml.getRootElement().addContent(e);
+		}
+		
+	    return new PageResponse(new ModelView(XslViews.SpeciesTable, pageXml));
 	}
 }

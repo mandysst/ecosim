@@ -36,6 +36,13 @@
 					click on any of the species links to see (and edit) details such as growth and mortality rates and 
 					customized tree architectural data</p>
 					
+					<ul>
+				    	<xsl:for-each select = "ecosim/species/name">
+				    		<li><a href = "speciesTable?value={@value}"> <xsl:value-of select="@value"/> </a></li>
+				            <!-- Right now I have made the links to google, because I was not sure on how we are going to the page where the tables will be displayed -->
+				        </xsl:for-each>
+    				</ul>
+					
 					<button type="submit">Continue</button>
 				
 				</form>
