@@ -28,6 +28,15 @@ public class ConsoleRecorder extends Recorder {
 	public void recordSnapshot(Forest forest) {
 		header();
 		System.out.println("completed");
+		System.out.println("\tTrees");
+		for ( Tree tree : forest.getTrees() ){
+			snapshot(tree);
+		}
+	}
+	
+	private void snapshot(Tree tree) {
+		System.out.println(getLabel(tree) + " at (" + tree.getLocation().getX() + ", " + tree.getLocation().getY() + ") -> " + 
+				tree.getArchitecture().getTrunkHeight() + "m trunk diameter, " + tree.getArchitecture().getTrunkDiameter() + " m trunk diameter");
 	}
 	
 	private void header() {
@@ -35,7 +44,7 @@ public class ConsoleRecorder extends Recorder {
 	}
 	
 	private String getLabel(Tree tree) {
-		return "Tree " + tree.getId() + " in plot " + tree.getPlot() + " (" + tree.getSpeciesName() + ")";
+		return "Tree " + tree.getId() + " (" + tree.getSpeciesName() + ")";
 	}
 
 }

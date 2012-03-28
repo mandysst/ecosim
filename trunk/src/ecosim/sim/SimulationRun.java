@@ -3,7 +3,7 @@ package ecosim.sim;
 import java.util.Random;
 
 import ecosim.model.Forest;
-import ecosim.model.ForestStatistics;
+import ecosim.model.Neighborhood;
 import ecosim.model.Species;
 import ecosim.model.Tree;
 import ecosim.model.growth.GrowthCalculator;
@@ -31,7 +31,6 @@ public class SimulationRun implements Runnable {
 	
 	/*  mutable state variables */
 	private int currentYear;
-	private ForestStatistics forestStats;
 	
 	
 	public SimulationRun(int runNumber, int numYears, ForestLoader loader, SpeciesMap speciesMap) {
@@ -47,7 +46,7 @@ public class SimulationRun implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Started   simulation run " + this.runNumber);
+		System.out.println("Started  simulation run " + this.runNumber);
 		for ( this.currentYear = 0; this.currentYear < this.numYears; this.currentYear++ ) {
 			runYear();
 		}
@@ -55,12 +54,20 @@ public class SimulationRun implements Runnable {
 	}
 	
 	void runYear() {
+		
+		for ( Tree tree : this.forest.getTrees() ) {
+			if ( tree.isAlive() ) {
+				tree.computeNeighborhood(forest);
+			}
+		}
+		
 		for ( Tree tree : this.forest.getTrees() ) {
 			if ( tree.isAlive() ) {
 				runTree(tree);
 			}
 		}
-		forestStats = new ForestStatistics(forest);
+		
+		
 		updateStratum();
 		this.recorder.recordSnapshot(forest);
 	}
@@ -79,6 +86,9 @@ public class SimulationRun implements Runnable {
 		Species species = this.speciesMap.get(tree.getSpeciesName());
 		MortalityKey mKey = new MortalityKey(tree.getType(), tree.getStrata());
 		MortalityCalculator mortality = species.getMortality().get(mKey);
+		if ( mortality == null ) {
+			throw new RuntimeException("No mortality data for species [" + tree.getSpeciesName() + "] type [" + tree.getType() + "] strata [" + tree.getStrata() + "]");
+		}
 		if ( mortality.shouldDie(tree, forest, this.currentYear, this.randgen) ) {
 			tree.kill();
 		}
@@ -88,6 +98,9 @@ public class SimulationRun implements Runnable {
 		Species species = this.speciesMap.get(tree.getSpeciesName());
 		GrowthFactorKey gKey = new GrowthFactorKey(tree.getType(), tree.getStrata());
 		GrowthCalculator growth = species.getGrowthCalculators().get(gKey);
+		if ( growth == null  ){
+			throw new RuntimeException("No growth data for species [" + tree.getSpeciesName() + "] type [" + tree.getType() + "] strata [" + tree.getStrata() + "]");
+		}
 		double growthFactor = growth.getPercentGrowth(tree, forest, this.currentYear, this.randgen);
 		GrowthController gc = new GrowthController(tree, species);
 		gc.growBy(growthFactor);
@@ -96,18 +109,11 @@ public class SimulationRun implements Runnable {
 	void updateStratum() {
 		for ( Tree tree : this.forest.getTrees() ) {
 			if ( tree.isAlive()) {
-				updateStrata(tree);
+				tree.updateStrata();
 			}
 		}
 	}
 	
-	void updateStrata(Tree tree) {
-		// Determine the new strata designation using the pre-computed forest statistics
-		tree.setStrata(forestStats.getStrata(tree.getArchitecture().getTrunkHeight()));
-		// Constrain the type (Adult, Sapling, Seedling) so it lines up with the new stratum.
-		// For example, if the tree just reached the canapy, it cannot be a sapling any longer
-		tree.setType(tree.getStrata().constrain(tree.getType()));
-	}
 	
 	
 		

@@ -1,6 +1,5 @@
 package ecosim.web.controllers;
 
-import ecosim.model.PlotLayout;
 import ecosim.sim.Simulation;
 import ecosim.sim.SimulationParameters;
 import ecosim.web.model.EcoSimWebContext;
@@ -23,18 +22,8 @@ public class Initialize extends AbstractController {
 		// Create the simulation object, initialize it with the parameters, store it in the session.
 		EcoSimWebContext context = (EcoSimWebContext) c;
 		//read in form
-		int numX, numY;
-		double sizeX, sizeY;
 		
-		numX=Integer.parseInt(c.getFromRequest("numX"));
-		numY=Integer.parseInt(c.getFromRequest("numY"));
-		sizeX=Double.parseDouble(c.getFromRequest("sizeX"));
-		sizeY=Double.parseDouble(c.getFromRequest("sizeY"));
-		
-		System.out.println(numX+" "+numY);
-		
-		PlotLayout pLayout = new PlotLayout(numX, numY, sizeX, sizeY);
-		SimulationParameters p = new SimulationParameters(Integer.parseInt(c.getFromRequest("numYears")), Integer.parseInt(c.getFromRequest("numSim")), pLayout);
+		SimulationParameters p = new SimulationParameters(Integer.parseInt(c.getFromRequest("numYears")), Integer.parseInt(c.getFromRequest("numSim")));
 		Simulation sim = new Simulation("Simple Demonstration", p);
 		context.put(EcoSimParam.Simulation, sim);
 		System.out.println("Simulation initialized");
