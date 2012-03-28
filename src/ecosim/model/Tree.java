@@ -5,7 +5,6 @@ import ecosim.model.architecture.TreeArchitecture;
 public class Tree {
 
 	private final Location location;
-	private final Plot plot;
 	private final String speciesName;
 	private final int id;
 	
@@ -13,20 +12,22 @@ public class Tree {
 	private TreeHealth health = null;
 	private TreeArchitecture architecture = null;
 	private TreeType type;
+	private Neighborhood neighborhood = null;
 	
 	
-	public Tree (int id, String speciesName, Location location, Plot plot) {
+	public Neighborhood getNeighborhood() {
+		return neighborhood;
+	}
+
+
+
+	public Tree (int id, String speciesName, Location location) {
 		this.speciesName = speciesName;
 		this.location = location;
-		this.plot = plot;
 		this.id = id;
 	}
 	
 	
-	public Plot getPlot() {
-		return plot;
-	}
-
 
 	public int getId() {
 		return id;
@@ -89,17 +90,25 @@ public class Tree {
 		return location;
 	}
 	
-	public Location getLocalLocation() {
-		return this.plot.localize(this.location);
+	
+	
+	
+	public void computeNeighborhood(Forest forest) {
+		this.neighborhood = new Neighborhood(this, forest);
 	}
-	
-	
-
 
 	public String getSpeciesName() {
 		return speciesName;
 	}
 	
+	
+	public void updateStrata() {
+		// Determine the new strata designation using the pre-computed forest statistics
+		this.setStrata(this.getNeighborhood().getStrata(this.getArchitecture().getTrunkHeight()));
+		// Constrain the type (Adult, Sapling, Seedling) so it lines up with the new stratum.
+		// For example, if the tree just reached the canapy, it cannot be a sapling any longer
+		this.setType(this.getStrata().constrain(this.getType()));
+	}
 	
 	
 	

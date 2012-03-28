@@ -18,5 +18,7 @@ public final class Location {
 		return y;
 	}
 	
-	
+	public double distanceFrom(Location loc) {
+		return Math.sqrt((this.getX() - loc.getX())*(this.getX() - loc.getX()) + (this.getY() - loc.getY())*(this.getY() - loc.getY()));
+	}
 }

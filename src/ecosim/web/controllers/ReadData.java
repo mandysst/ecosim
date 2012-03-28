@@ -6,9 +6,7 @@ import java.util.Enumeration;
 
 import com.oreilly.servlet.MultipartRequest;
 
-import ecosim.model.PlotLayout;
 import ecosim.model.loaders.ExcelForestLoader;
-import ecosim.model.loaders.TestLoader;
 import ecosim.sim.Simulation;
 import ecosim.web.view.EcoSimParam;
 import framework.web.AbstractController;
@@ -50,7 +48,7 @@ public class ReadData extends AbstractController {
 		
 		sim.setSpeciesMap(c.getServlet().getServletContext().getRealPath("/"));
 
-		ExcelForestLoader tl = new ExcelForestLoader(excelFile, sim.getSimParams().getPlotLayout());
+		ExcelForestLoader tl = new ExcelForestLoader(excelFile);
 		sim.setOriginalForest(tl.loadForest(sim.getSpeciesMap()));
 		
 		System.out.println(sim.getOriginalForest().getTrees().toString()); //DEBUG

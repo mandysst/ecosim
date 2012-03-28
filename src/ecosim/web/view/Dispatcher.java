@@ -17,8 +17,8 @@ public class Dispatcher extends AbstractDispatch {
 
 	
 	
-	public Dispatcher() {
-		super();
+	public Dispatcher(HttpServlet servlet) {
+		super(servlet);
 	}
 	
 	@Override

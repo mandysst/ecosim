@@ -188,7 +188,7 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		
 		
 		Species oak = new Species(speciesName, aMap, mMap, gMap);
-		speciesMap.put(speciesAbrev, oak);
+		speciesMap.put(speciesName, oak);
 		
 		
 		}

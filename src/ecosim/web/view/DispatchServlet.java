@@ -11,8 +11,12 @@ public class DispatchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
     
-	private final Dispatcher dispatch = new Dispatcher();
+	private Dispatcher dispatch;
 
+	@Override
+	public void init() {
+		dispatch = new Dispatcher(this);
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -2,27 +2,18 @@ package ecosim.model.loaders;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import ecosim.model.Forest;
 import ecosim.model.Location;
-import ecosim.model.Plot;
-import ecosim.model.PlotLayout;
 import ecosim.model.Species;
 import ecosim.model.Stratum;
 import ecosim.model.Tree;
 import ecosim.model.TreeHealth;
 import ecosim.model.TreeType;
-import ecosim.model.architecture.ArchitectureKey;
-import ecosim.model.architecture.ArchitectureProperty;
 import ecosim.model.architecture.DiameterBasedArchitectureCalculator;
 import ecosim.model.architecture.TreeArchitecture;
 import ecosim.sim.SpeciesMap;
@@ -33,16 +24,14 @@ import framework.excel.RowRange;
 public class ExcelForestLoader implements ForestLoader {
 	
 	final File excelFile;
-	final PlotLayout layout;
 	
 	final int EXCEL_PLOTX=0, EXCEL_PLOTY=3, EXCEL_XPOS=4, EXCEL_YPOS=5, EXCEL_SPECIES=6, EXCEL_MEASUREMENT=7, EXCEL_STRATUM=8, EXCEL_ISDEAD=10;
 	final int EXCEL_COL_WIDTH=10;
 	final int EXCEL_START_ROW=1;
 	
 	
-	public ExcelForestLoader(File excelFile, PlotLayout layout) {
+	public ExcelForestLoader(File excelFile) {
 		this.excelFile = excelFile;
-		this.layout = layout;
 	}
 	
 	@Override
@@ -58,7 +47,7 @@ public class ExcelForestLoader implements ForestLoader {
 		 * 		This part is a little undetermined - they numbered these in a way that is different than
 		 * 		we'd like.  For now, use column A to indicate PlotX, and column C to indicate PlotY.  Ignore column B
 		 * 		For column C, "lower" means PlotY = 0, "Upper" means PlotY = 1*/
-		Forest loadForest = new Forest(layout);
+		Forest loadForest = new Forest();
 		try
 		{
 			FileInputStream forestStream = new FileInputStream(excelFile);
@@ -94,23 +83,10 @@ public class ExcelForestLoader implements ForestLoader {
 					continue;
 				}
 				
-				int plotY;
-				if(treeData.get(EXCEL_PLOTY).equalsIgnoreCase("upper"))
-				{
-					plotY=0;
-				}
-				else
-				{
-					plotY=1;
-				}
-				Plot tempPlot = new Plot((int)Double.parseDouble(treeData.get(EXCEL_PLOTX)),plotY,layout);
-				if(!loadForest.getPlots().contains(tempPlot))
-				{
-					loadForest.getPlots().add(tempPlot);
-				}
+				
 				//Species treeSpecies = speciesMap.get(treeData.get(EXCEL_SPECIES));
-				Species treeSpecies = speciesMap.get("Ok");
-				Tree rowTree = new Tree(loadForest.nextTreeId(),treeSpecies.getName(),new Location(Double.parseDouble(treeData.get(EXCEL_XPOS)),Double.parseDouble(treeData.get(EXCEL_YPOS))),tempPlot);
+				Species treeSpecies = speciesMap.get("Oak");
+				Tree rowTree = new Tree(loadForest.nextTreeId(),treeSpecies.getName(),new Location(Double.parseDouble(treeData.get(EXCEL_XPOS)),Double.parseDouble(treeData.get(EXCEL_YPOS))));
 				rowTree.setHealth(new TreeHealth(8));
 				rowTree.setType(TreeType.Adult);
 				//rowTree.setType(TreeType.Sapling);
@@ -120,7 +96,6 @@ public class ExcelForestLoader implements ForestLoader {
 				DiameterBasedArchitectureCalculator dbac = new DiameterBasedArchitectureCalculator(Double.parseDouble(treeData.get(EXCEL_MEASUREMENT)) , rowTree, treeSpecies);
 				rowTree.setArchitecture(new TreeArchitecture(dbac));
 				
-				tempPlot.getTrees().add(rowTree);
 				loadForest.getTrees().add(rowTree);
 				
 				//reset col and go to next row
