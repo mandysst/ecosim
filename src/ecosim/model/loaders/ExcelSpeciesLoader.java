@@ -187,8 +187,8 @@ public class ExcelSpeciesLoader implements SpeciesLoader {
 		}
 		
 		
-		Species oak = new Species(speciesName, aMap, mMap, gMap);
-		speciesMap.put(speciesName, oak);
+		Species sp = new Species(speciesName, aMap, mMap, gMap);
+		speciesMap.put(speciesAbrev.toUpperCase(), sp);
 		
 		
 		}

@@ -23,7 +23,7 @@ public class TestLoader implements ForestLoader {
 		
 		Species oak = speciesMap.get("Oak");
 		
-		Tree tree = new Tree(forest.nextTreeId(), oak.getName(), new Location(5.4, 2.3));
+		Tree tree = new Tree(forest.nextTreeId(), oak.getName(), "OK", new Location(5.4, 2.3));
 		tree.setHealth(new TreeHealth(8));
 		tree.setType(TreeType.Adult);
 		tree.setStrata(Stratum.Canopy);

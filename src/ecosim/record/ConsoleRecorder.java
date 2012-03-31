@@ -36,7 +36,7 @@ public class ConsoleRecorder extends Recorder {
 	
 	private void snapshot(Tree tree) {
 		System.out.println(getLabel(tree) + " at (" + tree.getLocation().getX() + ", " + tree.getLocation().getY() + ") -> " + 
-				tree.getArchitecture().getTrunkHeight() + "m trunk diameter, " + tree.getArchitecture().getTrunkDiameter() + " m trunk diameter");
+				tree.getArchitecture().getTrunkHeight() + "m trunk height, " + tree.getArchitecture().getTrunkDiameter() + " m trunk diameter");
 	}
 	
 	private void header() {
