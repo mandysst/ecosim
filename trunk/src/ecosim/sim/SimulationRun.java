@@ -83,7 +83,7 @@ public class SimulationRun implements Runnable {
 	}
 	
 	void applyMortality(Tree tree) {
-		Species species = this.speciesMap.get(tree.getSpeciesName());
+		Species species = this.speciesMap.get(tree.getSpeciesAbrev());
 		MortalityKey mKey = new MortalityKey(tree.getType(), tree.getStrata());
 		MortalityCalculator mortality = species.getMortality().get(mKey);
 		if ( mortality == null ) {
@@ -95,7 +95,7 @@ public class SimulationRun implements Runnable {
 	}
 	
 	void applyGrowth(Tree tree) {
-		Species species = this.speciesMap.get(tree.getSpeciesName());
+		Species species = this.speciesMap.get(tree.getSpeciesAbrev());
 		GrowthFactorKey gKey = new GrowthFactorKey(tree.getType(), tree.getStrata());
 		GrowthCalculator growth = species.getGrowthCalculators().get(gKey);
 		if ( growth == null  ){

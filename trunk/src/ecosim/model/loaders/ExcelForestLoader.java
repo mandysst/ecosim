@@ -84,9 +84,10 @@ public class ExcelForestLoader implements ForestLoader {
 				}
 				
 				
-				//Species treeSpecies = speciesMap.get(treeData.get(EXCEL_SPECIES));
-				Species treeSpecies = speciesMap.get("Oak");
-				Tree rowTree = new Tree(loadForest.nextTreeId(),treeSpecies.getName(),new Location(Double.parseDouble(treeData.get(EXCEL_XPOS)),Double.parseDouble(treeData.get(EXCEL_YPOS))));
+				String speciesAbrev = treeData.get(EXCEL_SPECIES).toUpperCase();
+				Species treeSpecies = speciesMap.get(speciesAbrev);
+				//Species treeSpecies = speciesMap.get("Oak");
+				Tree rowTree = new Tree(loadForest.nextTreeId(),treeSpecies.getName(), speciesAbrev,new Location(Double.parseDouble(treeData.get(EXCEL_XPOS)),Double.parseDouble(treeData.get(EXCEL_YPOS))));
 				rowTree.setHealth(new TreeHealth(8));
 				rowTree.setType(TreeType.Adult);
 				//rowTree.setType(TreeType.Sapling);

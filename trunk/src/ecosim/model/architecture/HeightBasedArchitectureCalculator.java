@@ -22,7 +22,7 @@ public class HeightBasedArchitectureCalculator implements
 	private double evaluateTrunkDiameter(Tree currentTree, Species species) {
 		ArchitectureFunction f = species.getArchitectureFunctions().get(
 				new ArchitectureKey(currentTree.getType(), currentTree.getStrata(),
-						ArchitectureProperty.TrunkHeight, ArchitectureProperty.TrunkHeight));
+						ArchitectureProperty.TrunkHeight, ArchitectureProperty.TrunkDiameter));
 		return  f.evaluate(trunkHeight);
 	}
 	private double evaluateCanapyHeight(Tree currentTree, Species species) {

@@ -5,7 +5,7 @@ import ecosim.model.architecture.TreeArchitecture;
 public class Tree {
 
 	private final Location location;
-	private final String speciesName;
+	private final String speciesName, speciesAbrev;
 	private final int id;
 	
 	private Stratum strata = Stratum.Unknown;
@@ -21,8 +21,9 @@ public class Tree {
 
 
 
-	public Tree (int id, String speciesName, Location location) {
+	public Tree (int id, String speciesName, String speciesA, Location location) {
 		this.speciesName = speciesName;
+		this.speciesAbrev = speciesA;
 		this.location = location;
 		this.id = id;
 	}
@@ -99,6 +100,9 @@ public class Tree {
 
 	public String getSpeciesName() {
 		return speciesName;
+	}
+	public String getSpeciesAbrev() {
+		return speciesAbrev;
 	}
 	
 	

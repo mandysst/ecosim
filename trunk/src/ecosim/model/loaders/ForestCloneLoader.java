@@ -17,7 +17,7 @@ public class ForestCloneLoader implements ForestLoader {
 		Forest clonedForest = new Forest();
 		for ( Tree tree : this.source.getTrees() ) {
 			// Note that all properties themselves are immutable.
-			Tree clonedTree = new Tree(tree.getId(), tree.getSpeciesName(), tree.getLocation());
+			Tree clonedTree = new Tree(tree.getId(), tree.getSpeciesName(), tree.getSpeciesAbrev(), tree.getLocation());
 			clonedTree.setHealth(tree.getHealth());
 			clonedTree.setStrata(tree.getStrata());
 			clonedTree.setType(tree.getType());
