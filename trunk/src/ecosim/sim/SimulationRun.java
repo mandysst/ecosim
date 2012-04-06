@@ -5,6 +5,7 @@ import java.util.Random;
 import ecosim.model.Forest;
 import ecosim.model.Neighborhood;
 import ecosim.model.Species;
+import ecosim.model.Stratum;
 import ecosim.model.Tree;
 import ecosim.model.growth.GrowthCalculator;
 import ecosim.model.growth.GrowthController;
@@ -79,7 +80,6 @@ public class SimulationRun implements Runnable {
 			return;
 		}
 		applyGrowth(tree);
-		
 	}
 	
 	void applyMortality(Tree tree) {
@@ -109,7 +109,9 @@ public class SimulationRun implements Runnable {
 	void updateStratum() {
 		for ( Tree tree : this.forest.getTrees() ) {
 			if ( tree.isAlive()) {
+				Stratum prev=tree.getStrata();
 				tree.updateStrata();
+				if(prev!=tree.getStrata()){this.recorder.recordPromotion(tree, prev);}
 			}
 		}
 	}

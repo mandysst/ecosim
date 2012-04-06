@@ -32,11 +32,19 @@ public class ConsoleRecorder extends Recorder {
 		for ( Tree tree : forest.getTrees() ){
 			snapshot(tree);
 		}
+		
 	}
 	
 	private void snapshot(Tree tree) {
-		System.out.println(getLabel(tree) + " at (" + tree.getLocation().getX() + ", " + tree.getLocation().getY() + ") -> " + 
-				tree.getArchitecture().getTrunkHeight() + "m trunk height, " + tree.getArchitecture().getTrunkDiameter() + " m trunk diameter");
+		if(tree.isDead())
+		{
+			System.out.println(getLabel(tree)+" is dead.");
+		}
+		else{
+			System.out.println(getLabel(tree) + " at (" + tree.getLocation().getX() + ", " + tree.getLocation().getY() + ") -> " + 
+					tree.getArchitecture().getTrunkHeight() + "m trunk height, " + tree.getArchitecture().getTrunkDiameter() + " m trunk diameter "+"("+tree.getStrata()+")");
+		}
+		
 	}
 	
 	private void header() {

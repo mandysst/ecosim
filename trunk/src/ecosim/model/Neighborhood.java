@@ -7,10 +7,10 @@ import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 public class Neighborhood {
 	private static final double RADIUS = 20;// 20 meter radius 
-	private static final double EMERGENT = 0.05;
-	private static final double CANAPY = 0.15;
-	private static final double UPPER_MID = 0.50;
-	private static final double LOWER_MID = 0.75;
+	private static final double EMERGENT = 95;
+	private static final double CANAPY = 85;
+	private static final double UPPER_MID = 50;
+	private static final double LOWER_MID = 25;
 	
 	private final double emergentMinHeight;
 	private final double canopyMinHeight;
@@ -28,7 +28,7 @@ public class Neighborhood {
 			if ( t != tree ) {
 				if (t.getLocation().distanceFrom(tree.getLocation()) < RADIUS) {
 					neighbors.add(t);
-					heights.add(tree.getArchitecture().getTrunkHeight());
+					heights.add(t.getArchitecture().getTrunkHeight());
 				}
 			}
 		}
