@@ -19,11 +19,15 @@ public enum Stratum {
 	}, UpperMid {
 		@Override
 		public TreeType constrain(TreeType currentType) {
+			if(currentType==TreeType.Adult)
+			{return currentType;}
 			return TreeType.Sapling;
 		}
 	}, LowerMid {
 		@Override
 		public TreeType constrain(TreeType currentType) {
+			if(currentType==TreeType.Adult)
+			{return currentType;}
 			return TreeType.Sapling;
 		}
 	}, Unknown {
