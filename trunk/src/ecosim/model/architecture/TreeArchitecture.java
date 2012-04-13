@@ -9,11 +9,12 @@ public final class TreeArchitecture {
 	final private double canopyDiameter;
 	
 	
-	public TreeArchitecture(TreeArchitectureCalculator params) {
-		this.trunkDiameter = params.calculateTrunkDiameter();
-		this.trunkHeight = params.calculateTrunkHeight();
-		this.canopyDiameter = params.calculateCanopyDiameter();
-		this.canopyHeight = params.calculateCanopyHeight();
+	public TreeArchitecture(TreeArchitectureCalculator params, TreeArchitecture prev) {
+		
+		this.trunkDiameter = Math.max(prev==null?0:prev.getTrunkDiameter(), params.calculateTrunkDiameter());
+		this.trunkHeight = Math.max(prev==null?0:prev.getTrunkHeight(), params.calculateTrunkHeight());
+		this.canopyDiameter = Math.max(prev==null?0:prev.getCanopyDiameter(), params.calculateCanopyDiameter());
+		this.canopyHeight = Math.max(prev==null?0:prev.getCanopyHeight(), params.calculateCanopyHeight());
 	}
 	
 	public double getTrunkHeight() {

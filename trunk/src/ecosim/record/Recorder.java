@@ -18,7 +18,6 @@ public abstract class Recorder {
 	}
 	
 	
-	
 	public abstract void recordDeath(Tree tree, int year) ;
 	public abstract void recordPromotion(Tree tree, Stratum previous) ;
 	public abstract void recordSnapshot(Forest forest);

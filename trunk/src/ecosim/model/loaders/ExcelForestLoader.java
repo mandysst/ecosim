@@ -94,8 +94,9 @@ public class ExcelForestLoader implements ForestLoader {
 				
 				rowTree.setStrata(Stratum.parseString(treeData.get(EXCEL_STRATUM)));
 				
+				//
 				DiameterBasedArchitectureCalculator dbac = new DiameterBasedArchitectureCalculator(Double.parseDouble(treeData.get(EXCEL_MEASUREMENT)) , rowTree, treeSpecies);
-				rowTree.setArchitecture(new TreeArchitecture(dbac));
+				rowTree.setArchitecture(new TreeArchitecture(dbac, null));
 				
 				loadForest.getTrees().add(rowTree);
 				

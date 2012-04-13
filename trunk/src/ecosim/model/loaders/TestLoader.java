@@ -28,7 +28,7 @@ public class TestLoader implements ForestLoader {
 		tree.setType(TreeType.Adult);
 		tree.setStrata(Stratum.Canopy);
 		DiameterBasedArchitectureCalculator c = new DiameterBasedArchitectureCalculator(10, tree, oak);
-		tree.setArchitecture(new TreeArchitecture(c));
+		tree.setArchitecture(new TreeArchitecture(c, null));
 		
 		forest.getTrees().add(tree);
 		
