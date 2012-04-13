@@ -31,13 +31,13 @@ public class GrowthController {
 	private void growDiameterBy(double percent) {
 		double newTrunkDiameter = this.tree.getArchitecture().getTrunkDiameter() * ( 1 + percent);
 		DiameterBasedArchitectureCalculator c = new DiameterBasedArchitectureCalculator(newTrunkDiameter, tree, species);
-		tree.setArchitecture(new TreeArchitecture(c));
+		tree.setArchitecture(new TreeArchitecture(c, this.tree.getArchitecture()));
 	}
 	
 	private void growHeightBy(double percent) {
 		double newTrunkHeight = this.tree.getArchitecture().getTrunkHeight() * ( 1 + percent);
 		HeightBasedArchitectureCalculator c = new HeightBasedArchitectureCalculator(newTrunkHeight, tree, species);
-		tree.setArchitecture(new TreeArchitecture(c));
+		tree.setArchitecture(new TreeArchitecture(c, this.tree.getArchitecture()));
 	}
 	
 	

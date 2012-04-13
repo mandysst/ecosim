@@ -40,6 +40,7 @@ public class Simulation {
 		this.createdTime = new Date();
 		this.simParams = simParams;
 		executorService = Executors.newFixedThreadPool(Math.min(simParams.getNumRuns(), MAX_THREADS));
+		this.initDatabase();
 		
 		//SpeciesLoader sl = new DefaultSpeciesLoader();
 		//sl.loadSpecies(speciesMap);
@@ -73,6 +74,7 @@ public class Simulation {
 	private void execute () throws Throwable{
 		ForestCloneLoader cloner = new ForestCloneLoader(this.originalForest);
 		
+		this.recordForest();
 		for ( int i = 0; i < simParams.getNumRuns(); i++ ) {
 			SimulationRun simRun = new SimulationRun(i, simParams.getNumYears(), cloner, this.speciesMap);
 			Recorder recorder = new ConsoleRecorder(this, simRun);
@@ -105,6 +107,15 @@ public class Simulation {
 		return simParams;
 	}
 	
+	private void recordForest()
+	{
+		//save orig forest to tree table in db
+	}
+	private void initDatabase()
+	{
+		//create database conneciton to db
+		//create all tables if they do not exist
+	}
 	
 	
 }

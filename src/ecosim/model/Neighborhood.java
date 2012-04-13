@@ -25,11 +25,9 @@ public class Neighborhood {
 		List<Double> heights = new LinkedList<Double>();
 		// Find all the trees in the forest within RADIUS
 		for ( Tree t : forest.getTrees() ) {
-			if ( t != tree ) {
-				if (t.getLocation().distanceFrom(tree.getLocation()) < RADIUS) {
-					neighbors.add(t);
-					heights.add(t.getArchitecture().getTrunkHeight());
-				}
+			if (t.getLocation().distanceFrom(tree.getLocation()) < RADIUS) {
+				neighbors.add(t);
+				heights.add(t.getArchitecture().getTrunkHeight());
 			}
 		}
 		
