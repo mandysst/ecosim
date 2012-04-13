@@ -17,6 +17,7 @@ import ecosim.model.loaders.ExcelSpeciesLoader;
 import ecosim.model.loaders.ForestCloneLoader;
 import ecosim.model.loaders.SpeciesLoader;
 import ecosim.record.ConsoleRecorder;
+import ecosim.record.DatabaseRecorder;
 import ecosim.record.Recorder;
 
 public class Simulation {
@@ -74,16 +75,21 @@ public class Simulation {
 	private void execute () throws Throwable{
 		ForestCloneLoader cloner = new ForestCloneLoader(this.originalForest);
 		
-		this.recordForest();
+		DatabaseRecorder recorder= new DatabaseRecorder(this, null);
+		recorder.recordTrees(originalForest);
+		recorder.closeConnection();
+		
 		for ( int i = 0; i < simParams.getNumRuns(); i++ ) {
 			SimulationRun simRun = new SimulationRun(i, simParams.getNumYears(), cloner, this.speciesMap);
-			Recorder recorder = new ConsoleRecorder(this, simRun);
+			recorder = new DatabaseRecorder(this, simRun);
 			simRun.setRecorder(recorder);
 			executorService.execute(simRun);
 		}
 		this.executorService.shutdown();
 		this.executorService.awaitTermination(MAX_RUNTIME_MINUTES, TimeUnit.MINUTES);
 		
+		//closes database connection
+		recorder.closeConnection();
 	}
 
 	public void setSpeciesMap(String path)
