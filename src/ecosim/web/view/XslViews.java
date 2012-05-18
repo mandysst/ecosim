@@ -10,4 +10,8 @@ public class XslViews {
 	public static final String Confirm = "confirm.xsl";
 	public static final String Execute = "execute.xsl";
 	public static final String ResultsSummary = "resultsSummary.xsl";
+	public static final String SpeciesYear = "speciesYear.xsl";
+	public static final String SpeciesDetail = "speciesDetail.xsl";
+	public static final String TreeResults = "treePage.xsl";
+	public static final String TreeDetail = "treeDetail.xsl";
 }

@@ -34,7 +34,7 @@
 				<p>This page will use AJAX to report on the progress of the simulation job.  Once the job
 				is completed, the user will be redirected to the results-summary page.  For now, use the link below...</p>
 				
-				<a href="results-summary">Go to the results summary page (temporary link)</a>
+				<a href="speciesYear">Go to the results summary page (temporary link)</a>
 				
 			</body>
 		</html>
